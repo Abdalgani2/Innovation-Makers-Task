@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+    <style>
+        .input {
+            height: 30px;
+            width: 400px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 10px
+        }
+
+        select {
+            height: 36px;
+            width: 406px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto
+        }
+
+        .mainDiv {
+
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background-color: whitesmoke;
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .subDiv {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background-color: whitesmoke;
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            gap: 15px;
+            padding-top: 20px
+        }
+
+        .saveButton {
+            width: 90px;
+            height: 30px;
+            display: block;
+            margin-left: 171%
+        }
+
+        .getAllFrindButton {
+            width: 220px;
+            height: 36px;
+            margin-left: 25%
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="mainDiv">
+
+        <Input class="input" placeholder="Name" />
+
+        <Input class="input" placeholder="Tel No" />
+        <div>
+
+            <select id="listCountry">
+
+            </select>
+        </div>
+        <div>
+            <select id="listCity">
+            </select>
+        </div>
+        <button class="saveButton">save</button> <br>
+        <br>
+    </div>
+    <div class="subDiv">
+        <button class="getAllFrindButton">Click To Show All Frind</button>
+        <div>
+            <Input id="searchByName" style="width: 300px ;height: 36px;margin-left :92px;" placeholder="Search Name" />
+            <button id="list" style="width: 70px ;height: 39px;">Search</button> <br>
+        </div>
+    </div>
+    <script>
+
+        // function to get all country_nm
+        function fun1() {
+            let output = '<select>';
+            var myRequest = new XMLHttpRequest();
+            myRequest.open('post', 'http://theinnovationmakers.com/app/exam_api.php', true);
+            myRequest.onload = function () {
+                if (this.status == 200) {
+                    let country = JSON.parse(this.responseText.data.country_nm)
+                    for (let i in country) {
+                        output += '<option>' + county[i] + '</option>'
+                    }
+                    output += '</select>'
+                    document.getElementById('listCountry').innerHTML = output;
+                }
+            }
+            myRequest.send({ fun: 1 })
+
+        }
+
+        // function to get all city_nm
+        function fun2() {
+            let output = '<select>';
+            var myRequest = new XMLHttpRequest();
+            myRequest.open('post', 'http://theinnovationmakers.com/app/exam_api.php', true);
+            myRequest.onload = function () {
+                if (this.status == 200) {
+                    let city = JSON.parse(this.responseText.data.city_nm)
+                    for (let i in city) {
+                        output += '<option>' + county[i] + '</option>'
+                    }
+                    output += '</select>'
+                    document.getElementById('listCity').innerHTML = output;
+                }
+            }
+            myRequest.send({
+                fun: 2,
+                country_cd: 114
+            })
+        }
+
+        // function to get all ferind
+        function fun4() {
+            var myRequest = new XMLHttpRequest();
+            myRequest.open('post', 'http://theinnovationmakers.com/app/exam_api.php', true);
+            myRequest.onload = function () {
+                if (this.status == 200) {
+                    let ferind = JSON.parse(this.responseText.data)
+                }
+            }
+            myRequest.send({ fun: 4 })
+
+        }
+
+        // function to get freind by name
+        function fun5() {
+          let  name= document.getElementById("searchByName").value
+            var myRequest = new XMLHttpRequest();
+            myRequest.open('post', 'http://theinnovationmakers.com/app/exam_api.php', true);
+            myRequest.onload = function () {
+                if (this.status == 200) {
+                    let ferind = JSON.parse(this.responseText.data)
+                }
+            }
+            myRequest.send({ fun: 5 ,
+                freind_nm:name})
+
+        }
+
+    </script>
+</body>
+
+</html>
